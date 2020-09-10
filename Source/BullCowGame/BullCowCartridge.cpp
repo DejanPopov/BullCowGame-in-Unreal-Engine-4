@@ -4,12 +4,15 @@
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
+    SetupGame();
+
+    //Debug line
+    PrintLine(TEXT("The HiddenWord is %s"), *HiddenWord);
+
     PrintLine(TEXT("Hello there!"));
     PrintLine(TEXT("Guess the 4 letter word")); //Number is hardcoded REMOVE latter!
     PrintLine(TEXT("Press Enter to continue..."));
-
-    SetupGame();
-   
+    
 }
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
