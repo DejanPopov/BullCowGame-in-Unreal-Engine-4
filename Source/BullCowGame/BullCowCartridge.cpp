@@ -27,7 +27,8 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
 
 }
 
-void UBullCowCartidge::InitGame()
+void UBullCowCartridge::InitGame()
 {
     HiddenWord = TEXT("cake");
+    Lives = 4 ;
 }
