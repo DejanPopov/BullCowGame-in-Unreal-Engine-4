@@ -7,11 +7,12 @@ void UBullCowCartridge::BeginPlay() // When the game starts
     SetupGame();
 
     //Debug line
-    PrintLine(TEXT("The HiddenWord is %s"), *HiddenWord);
+    PrintLine(TEXT("The HiddenWord is %s.\nIt is %i chars long."), *HiddenWord,
+        HiddenWord.Len());
 
     PrintLine(TEXT("Hello there!"));
-    PrintLine(TEXT("Guess the 4 letter word")); //Number is hardcoded REMOVE latter!
-    PrintLine(TEXT("Press Enter to continue..."));
+    PrintLine(TEXT("Guess the %i letter word"), HiddenWord.Len()); //Number is hardcoded REMOVE latter!
+    PrintLine(TEXT("Type in your guess and press Enter to continue..."));
     
 }
 
@@ -29,7 +30,8 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
     {
         if (Input.Len() != HiddenWord.Len())
         {
-            PrintLine(TEXT("Hidden word is 4 characters long,try again"));
+            PrintLine(TEXT("Hidden word is %i characters long,try again")
+            , HiddenWord.Len());
         }
         PrintLine(TEXT("You Lose!"));
     }
