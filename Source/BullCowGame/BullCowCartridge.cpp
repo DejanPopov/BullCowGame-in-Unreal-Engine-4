@@ -7,12 +7,12 @@ void UBullCowCartridge::BeginPlay() // When the game starts
     PrintLine(TEXT("Hello there!"));
     PrintLine(TEXT("Guess the 4 letter word")); //Number is hardcoded REMOVE latter!
     PrintLine(TEXT("Press ENter to continue..."));
+    HiddenWord = TEXT("cake");
 }
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
 {
     ClearScreen();
-    FString HiddenWord = TEXT("cake"); //Move outside this function
 
     if (Input == HiddenWord)
     {
