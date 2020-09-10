@@ -21,23 +21,8 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
         SetupGame();
     }
     else
-    {
-        if (Input == HiddenWord)
-        {
-            PrintLine(TEXT("You Win"));
-            EndGame();
-        }
-        else
-        {
-            --Lives;
-            if (Lives > 0)
-            {
-                if (Input.Len() != HiddenWord.Len())
-                {
-                    PrintLine(TEXT("Sorry,try again! You have %i lives remaining"), Lives);
-                }
-            }
-        }
+    {   
+        ProcessGuess(Input);
     }
 }
 
@@ -60,4 +45,30 @@ void UBullCowCartridge::EndGame()
 {
     bGameOver = true;
     PrintLine(TEXT("Press Enter to play again"));
+}
+
+void UBullCowCartridge::ProcessGuess(FString Guess)
+{
+    if (Guess == HiddenWord)
+    {
+        PrintLine(TEXT("You Win"));
+        EndGame();
+    }
+    else
+    {
+        PrintLine(TEXT("You have lost a life!"));
+        PrintLine(TEXT("%i"), --Lives);
+        if (Lives > 0)
+        {
+            if (Guess.Len() != HiddenWord.Len())
+            {
+                PrintLine(TEXT("Sorry,try again! You have %i lives remaining"), Lives);
+            }
+        }
+        else
+        {
+            PrintLine(TEXT("You have no lives left"));
+            EndGame();
+        }
+    }
 }
