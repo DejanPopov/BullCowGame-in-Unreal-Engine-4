@@ -44,7 +44,10 @@ void UBullCowCartridge::SetupGame()
 void UBullCowCartridge::EndGame()
 {
     bGameOver = true;
-    PrintLine(TEXT("Press Enter to play again"));
+    ClearScreen();
+    PrintLine(TEXT("You have no lives left!"));
+    PrintLine(TEXT("The hidden wor was %s"), *HiddenWord);
+    PrintLine(TEXT("\nPress Enter to play again"));
 }
 
 void UBullCowCartridge::ProcessGuess(FString Guess)
@@ -53,22 +56,22 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
     {
         PrintLine(TEXT("You Win"));
         EndGame();
+        return;
     }
-    else
+
+    if (Guess.Len() != HiddenWord.Len())
     {
-        PrintLine(TEXT("You have lost a life!"));
-        PrintLine(TEXT("%i"), --Lives);
-        if (Lives > 0)
-        {
-            if (Guess.Len() != HiddenWord.Len())
-            {
-                PrintLine(TEXT("Sorry,try again! You have %i lives remaining"), Lives);
-            }
-        }
-        else
-        {
-            PrintLine(TEXT("You have no lives left"));
-            EndGame();
-        }
+        PrintLine(TEXT("Sorry,try again! You have %i lives remaining"), Lives);
+        PrintLine(TEXT("The hidden word is %i leeters long"), HiddenWord.Len());
+        return;
     }
-}
+
+    PrintLine(TEXT("You have lost a life!"));
+    --Lives;
+
+    if (Lives <= 0)
+    {
+        EndGame();
+        return;
+    }
+    
