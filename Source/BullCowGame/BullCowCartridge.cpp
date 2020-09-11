@@ -6,13 +6,22 @@
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
-    SetupGame();
-    EndGame();
 
+    SetupGame();
+    
+    PrintLine(TEXT("The number of possible words is %i"), Words.Num());
     //Debug line
    // PrintLine(TEXT("The HiddenWord is %s.\nIt is %i chars long."), *HiddenWord,
   //     HiddenWord.Len());
 
+    for (int32 Index = 0; Index <= 10; Index++)
+    {
+        if (Words[Index].Len() >=4 && Words[Index].Len() <=8)
+        {
+            PrintLine(TEXT("%s"), *Words[Index]);
+        }
+        
+    }
 }
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
@@ -40,11 +49,6 @@ void UBullCowCartridge::SetupGame()
     PrintLine(TEXT("Guess the %i letter word"), HiddenWord.Len()); //Number is hardcoded REMOVE latter!
     PrintLine(TEXT("Type in your guess. \npress Enter to continue..."));
     PrintLine(TEXT("You have %i lives left"), Lives);
-   
-
-   // const TCHAR HW[] = TEXT("cakes");
-   // PrintLine(TEXT("Char 1 of the hidden word is %c"), HW[0]);
-   // PrintLine(TEXT("Char 4 of the hidden word is %c"), HW[3]);
 }
 
 void UBullCowCartridge::EndGame()
