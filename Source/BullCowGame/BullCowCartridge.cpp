@@ -38,11 +38,13 @@ void UBullCowCartridge::SetupGame()
     PrintLine(TEXT("Guess the %i letter word"), HiddenWord.Len()); //Number is hardcoded REMOVE latter!
     PrintLine(TEXT("Type in your guess. \npress Enter to continue..."));
     PrintLine(TEXT("You have %i lives left"), Lives);
+   
 
-    const TCHAR HW[] = TEXT("cakes");
-    PrintLine(TEXT("Char 1 of the hidden word is %c"), HW[0]);
-    PrintLine(TEXT("Char 4 of the hidden word is %c"), HW[3]);
+   // const TCHAR HW[] = TEXT("cakes");
+   // PrintLine(TEXT("Char 1 of the hidden word is %c"), HW[0]);
+   // PrintLine(TEXT("Char 4 of the hidden word is %c"), HW[3]);
 
+    IsIsogram(HiddenWord);
 }
 
 void UBullCowCartridge::EndGame()
@@ -60,16 +62,16 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
         return;
     }
 
-    if (!IsIsogram(Guess))
-    {
-        PrintLine(TEXT("No repeating letters,guess again!"));
-        return;
-    }
-
     if (Guess.Len() != HiddenWord.Len())
     {
         PrintLine(TEXT("The hidden word is %i leeters long"), HiddenWord.Len());
         PrintLine(TEXT("Sorry,try again! You have %i lives remaining"), Lives);
+        return;
+    }
+
+    if (!IsIsogram(Guess))
+    {
+        PrintLine(TEXT("No repeating letters,guess again!"));
         return;
     }
 
@@ -88,10 +90,12 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
     PrintLine(TEXT("Guess again, you have %i lives left"), HiddenWord.Len());
 }
 
-bool UBullCowCartridge::IsIsogram(FString Word)
+bool UBullCowCartridge::IsIsogram(FString Word) const
 {
-
-
+    for (int32 Index = 0; Index < Word.Len(); Index++)
+    {
+        PrintLine(TEXT("%c"), Word[Index]);
+    }
     return true;
 }
     
