@@ -7,6 +7,8 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
 
+    Isograms = GetValidWords(Words); 
+
     SetupGame();
     
 }
@@ -29,8 +31,8 @@ void UBullCowCartridge::SetupGame()
     //Welcoming Player
     PrintLine(TEXT("Welcome to BullCow game"));
 
-    HiddenWord = GetValidWords(Words)[FMath::RandRange(0,GetValidWords(Words).Num() - 1)];
-    Lives = HiddenWord.Len();
+    HiddenWord = Isograms[FMath::RandRange(0,Isograms.Num() - 1)];
+    Lives = HiddenWord.Len() * 2;
     bGameOver = false;
 
     PrintLine(TEXT("Guess the %i letter word"), HiddenWord.Len()); //Number is hardcoded REMOVE latter!
@@ -80,8 +82,11 @@ void UBullCowCartridge::ProcessGuess(const FString& Guess)
         EndGame();
         return;
     }
+    
+    FBullCowCount Score = GetBullCows(Guess);
+    PrintLine(TEXT("You have %i Bulls and %i Cows"), Score.Bulls, Score.Cows);
 
-    PrintLine(TEXT("Guess again, you have %i lives left"), HiddenWord.Len());
+    PrintLine(TEXT("Guess again, you have %i lives left"), Lives);
 }
 
 bool UBullCowCartridge::IsIsogram(const FString& Word) const
@@ -117,7 +122,6 @@ bool UBullCowCartridge::IsIsogram(const FString& Word) const
     return true;
 }
 
-    
 TArray<FString> UBullCowCartridge::GetValidWords(const TArray<FString>& WordList) const
 {
     TArray<FString> ValidWords;
@@ -131,4 +135,28 @@ TArray<FString> UBullCowCartridge::GetValidWords(const TArray<FString>& WordList
     
     }
     return ValidWords;
+}
+
+FBullCowCount UBullCowCartridge::GetBullCows(const FString& Guess) const
+{
+    FBullCowCount Count;
+
+    for (int32 GuessIndex = 0; GuessIndex < Guess.Len(); GuessIndex++)
+    {
+        if (Guess[GuessIndex] == HiddenWord[GuessIndex])
+        {
+            Count.Bulls++;
+            continue;
+        }
+
+        for (int32 HiddenIndex = 0; HiddenIndex < HiddenWord.Len(); HiddenIndex++)
+        {
+            if (Guess[GuessIndex] == HiddenWord[HiddenIndex])
+            {
+                Count.Cows++;
+            }
+
+        }
+    }
+    return Count;
 }
